@@ -1,4 +1,3 @@
-php
 <?php
 // config.php
 // Otomatis deteksi environment: Railway atau Lokal (Laragon)
