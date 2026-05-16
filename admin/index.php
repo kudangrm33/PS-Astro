@@ -150,52 +150,55 @@ if (isset($_GET['delete'])) {
 */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_products'])) {
 
-  $prices    = $_POST['price'] ?? [];
-  $available = $_POST['available'] ?? [];
+    $prices       = $_POST['price'] ?? [];
+    $names        = $_POST['name'] ?? [];        // TAMBAHKAN INI
+    $descriptions = $_POST['description'] ?? []; // TAMBAHKAN INI
+    $available    = $_POST['available'] ?? [];
 
-  if (!is_array($prices) || !count($prices)) {
+    if (!is_array($prices) || !count($prices)) {
+        $errorMsg = 'Tidak ada data produk yang dikirim.';
+    } else {
+        try {
+            $pdo->beginTransaction();
 
-    $errorMsg = 'Tidak ada data produk yang dikirim.';
+            // UPDATE SQL (Ditambah name dan description)
+            $stmt = $pdo->prepare("
+                UPDATE products 
+                SET 
+                    name = :name,
+                    description = :description,
+                    price = :price,
+                    available = :available
+                WHERE id = :id
+            ");
 
-  } else {
+            foreach ($prices as $id => $price) {
+                $id    = (int)$id;
+                $price = (int)$price;
+                $isAvailable = isset($available[$id]) ? 1 : 0;
+                $name = $names[$id] ?? '';
+                $description = $descriptions[$id] ?? '';
 
-    try {
+                $stmt->execute([
+                    ':name'        => $name,
+                    ':description' => $description,
+                    ':price'       => $price,
+                    ':available'   => $isAvailable,
+                    ':id'          => $id
+                ]);
+            }
 
-      $pdo->beginTransaction();
+            $pdo->commit();
+            header("Location: index.php?status=updated"); // Sesuaikan nama file jika bukan index.php
+            exit;
 
-      $stmt = $pdo->prepare("
-        UPDATE products
-        SET
-          price = :price,
-          available = :available
-        WHERE id = :id
-      ");
-
-      foreach ($prices as $id => $price) {
-
-        $id    = (int)$id;
-        $price = (int)$price;
-        $avail = isset($available[$id]) ? 1 : 0;
-
-        $stmt->execute([
-          ':price'     => $price,
-          ':available' => $avail,
-          ':id'        => $id,
-        ]);
-      }
-
-      $pdo->commit();
-
-      $successMsg = 'Perubahan produk berhasil disimpan.';
-
-    } catch (Throwable $e) {
-
-      $pdo->rollBack();
-
-      $errorMsg = 'Gagal menyimpan perubahan: ' . $e->getMessage();
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            $errorMsg = 'Gagal memperbarui produk: ' . $e->getMessage();
+        }
     }
-  }
 }
+
 
 /*
 |--------------------------------------------------------------------------
@@ -714,129 +717,69 @@ function formatRupiah($n)
 
   </form>
 
-  <!-- ================= KELOLA PRODUK ================= -->
+ <!-- ================= KELOLA PRODUK ================= -->
+<h2>Kelola Produk</h2>
 
-  <h2>Kelola Produk</h2>
-
-  <form method="POST">
-
-    <input type="hidden" name="update_products" value="1">
-
-    <div class="admin-table-wrapper">
-
-      <table>
-
-        <thead>
-
-          <tr>
-            <th>ID</th>
-            <th>Gambar</th>
-            <th>Nama Produk</th>
-            <th>Harga</th>
-            <th>Status</th>
-            <th>Aksi</th>
-          </tr>
-
-        </thead>
-
-        <tbody>
-
-        <?php foreach ($products as $p): ?>
-
-          <tr>
-
-            <td>
-              <?= (int)$p['id'] ?>
-            </td>
-
-            <td>
-
-              <?php if (!empty($p['img'])): ?>
-
-                <img
-                  src="../img/products/<?= htmlspecialchars($p['img']) ?>"
-                  alt="<?= htmlspecialchars($p['name']) ?>"
-                  class="product-thumb"
-                >
-
-              <?php else: ?>
-
-                Tidak ada gambar
-
-              <?php endif; ?>
-
-            </td>
-
-            <td>
-              <?= htmlspecialchars($p['name']) ?>
-            </td>
-
-            <td>
-
-              <input
-                type="number"
-                name="price[<?= (int)$p['id'] ?>]"
-                value="<?= (int)$p['price'] ?>"
-                min="0"
-              >
-
-            </td>
-
-            <td>
-
-              <label class="switch-label">
-
-                <input
-                  type="checkbox"
-                  name="available[<?= (int)$p['id'] ?>]"
-                  value="1"
-                  <?= $p['available'] ? 'checked' : '' ?>
-                >
-
-                <span>
-                  <?= $p['available'] ? 'Tersedia' : 'Tidak' ?>
-                </span>
-
-              </label>
-
-            </td>
-
-            <td>
-
-              <a
-                href="?delete=<?= (int)$p['id'] ?>"
-                class="delete-btn"
-                onclick="return confirm('Yakin ingin menghapus produk ini?')"
-              >
-                Hapus
-              </a>
-
-            </td>
-
-          </tr>
-
-        <?php endforeach; ?>
-
-        </tbody>
-
-      </table>
-
-    </div>
+<form method="POST">
+  <input type="hidden" name="update_products" value="1">
+  <div class="admin-table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Gambar</th>
+          <th>Nama Produk</th>
+          <th>Deskripsi</th> <!-- TAMBAHKAN INI -->
+          <th>Harga</th>
+          <th>Status</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+      <?php foreach ($products as $p): ?>
+        <tr>
+          <td><?= (int)$p['id'] ?></td>
+          <td>
+            <?php if (!empty($p['img'])): ?>
+              <img src="../img/products/<?= htmlspecialchars($p['img']) ?>" class="product-thumb">
+            <?php else: ?>
+              Tidak ada gambar
+            <?php endif; ?>
+          </td>
+          <td>
+            <!-- UBAH JADI INPUT AGAR BISA DIEDIT -->
+            <input type="text" name="name[<?= (int)$p['id'] ?>]" value="<?= htmlspecialchars($p['name']) ?>" style="width: 100%;">
+          </td>
+          <td>
+            <!-- TAMBAHKAN TEXTAREA UNTUK DESKRIPSI -->
+            <textarea name="description[<?= (int)$p['id'] ?>]" rows="3" style="width: 100%; min-width: 150px;"><?= htmlspecialchars($p['description']) ?></textarea>
+          </td>
+          <td>
+            <input type="number" name="price[<?= (int)$p['id'] ?>]" value="<?= (int)$p['price'] ?>" min="0">
+          </td>
+          <td>
+            <label class="switch-label">
+              <input type="checkbox" name="available[<?= (int)$p['id'] ?>]" value="1" <?= $p['available'] ? 'checked' : '' ?>>
+              <span><?= $p['available'] ? 'Tersedia' : 'Tidak' ?></span>
+            </label>
+          </td>
+          <td>
+            <a href="?delete=<?= (int)$p['id'] ?>" class="delete-btn" onclick="return confirm('Yakin ingin menghapus produk ini?')">Hapus</a>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
 
   <div class="save-button-wrap">
+    <button type="submit" class="save-btn">
+      <span class="btn-icon">💾</span>
+      <span>Simpan Perubahan</span>
+    </button>
+  </div>
+</form>
 
-  <button
-    type="submit"
-    class="save-btn"
-  >
-    <span class="btn-icon">💾</span>
-    <span>Simpan Perubahan</span>
-  </button>
-
-</div>
-
-
-  </form>
 
 </div>
 
