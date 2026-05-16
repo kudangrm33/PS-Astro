@@ -999,3 +999,26 @@ footer .credit {
   font-weight: bold;
 }
 
+/* 1. Merapatkan jarak elemen di dalam harga produk */
+.shopping-cart .item-price {
+  gap: 0.4rem !important; /* Perkecil jarak antar angka dan tombol */
+  font-size: 1.1rem;
+}
+
+/* 2. Membuat Total lebih besar, tebal, dan memiliki garis atas-bawah */
+.shopping-cart h4 {
+  font-size: 1.6rem !important; /* Ukuran lebih besar */
+  font-weight: 800 !important;  /* Lebih tebal */
+  text-align: center;
+  margin-top: 1.5rem;
+  padding: 1rem 0;
+  border-top: 1px dashed #333;    /* Garis atas baru */
+  border-bottom: 1px dashed #333; /* Garis bawah */
+  width: 100%;
+}
+
+/* Memastikan tulisan "Total" dan Angkanya satu baris yang rapi */
+.shopping-cart h4 span {
+  color: #b6895b; /* Berikan warna cokelat pada angka total agar kontras */
+}
+
