@@ -911,4 +911,47 @@ footer .credit {
   border: none;
 }
 
+/* --- RESPONSIVE MOBILE FIX --- */
+
+/* Untuk Tablet dan HP (Layar di bawah 768px) */
+@media (max-width: 768px) {
+  html {
+    font-size: 62.5%; /* Mengecilkan ukuran font dasar */
+  }
+
+  .navbar {
+    padding: 1.5rem 2rem;
+  }
+
+  .hero .content h1 {
+    font-size: 3.5rem; /* Mengecilkan judul utama agar tidak menumpuk */
+    line-height: 1.2;
+  }
+
+  .hero .content p {
+    font-size: 1.6rem;
+    margin-top: 1rem;
+  }
+}
+
+/* Untuk HP Kecil (Layar di bawah 450px) */
+@media (max-width: 450px) {
+  html {
+    font-size: 55%;
+  }
+
+  .hero .content h1 {
+    font-size: 3rem; /* Lebih kecil lagi untuk HP mungil */
+  }
+
+  .hero .content p {
+    font-size: 1.4rem;
+  }
+  
+  .navbar-extra {
+    gap: 1rem; /* Merapatkan jarak ikon di navbar */
+  }
+}
+
+
 
