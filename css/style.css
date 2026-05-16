@@ -806,13 +806,18 @@ footer .credit {
 /* --- PERBAIKAN TAMPILAN MODAL DETAIL PRODUK --- */
 
 .modal {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   position: fixed;
   inset: 0;
   z-index: 9999;
   background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Tampilkan modal hanya jika atribut aria-hidden bernilai false */
+.modal[aria-hidden="false"] {
+  display: flex;
 }
 
 .modal-container {
