@@ -701,6 +701,37 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             lastFocused.focus();
         }
 
+        // Tambahkan variabel untuk menyimpan data produk yang sedang dibuka
+let currentItem = null;
+
+function openModal(trigger) {
+  // Ambil ID juga dari dataset
+  const { id, title, price, image, description } = trigger.dataset;
+  
+  // Simpan data produk ke variabel currentItem
+  currentItem = {
+    id: id,
+    name: title,
+    price: price,
+    img: image.split('/').pop() // ambil nama filenya saja
+  };
+
+  // ... kode openModal lainnya tetap sama ...
+}
+
+// Tambahkan Event Listener untuk tombol cokelat (btn-buy)
+document.querySelector('.btn-buy').addEventListener('click', (e) => {
+  e.preventDefault();
+  if (currentItem) {
+    // Panggil fungsi Alpine Store untuk menambah ke keranjang
+    Alpine.store('cart').add(currentItem);
+    
+    // Tutup modal setelah berhasil ditambah
+    closeModal();
+  }
+});
+
+
         // Delegasi klik: buka + tutup
         document.addEventListener("click", (e) => {
           const btn = e.target.closest(
