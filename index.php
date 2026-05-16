@@ -652,22 +652,26 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         maximumFractionDigits: 0,
       }).format(Number(n || 0));
 
-    function openModal(trigger) {
-  // 1. Ganti 'title' menjadi 'name' di sini
-  const { id, name, description, price, priceOld, image } = trigger.dataset;
+   function openModal(trigger) {
+  // Ambil data (kita ambil name dan title)
+  const { id, name, title, description, price, priceOld, image } = trigger.dataset;
+  
+  // Pastikan kita mendapatkan teks namanya (prioritas name, lalu title)
+  const finalName = name || title || "Paket Ps Astro";
   currentItem = {
     id: id,
-    name: name, // 2. Gunakan 'name' di sini
+    name: finalName, // Sekarang pasti ada isinya
     price: price,
     img: image.split('/').pop()
   };
-  // 3. Ganti 'title' menjadi 'name' di bagian update tampilan
-  if (name) modal.querySelector(sel.title).textContent = name;
+  // Update tampilan judul di modal
+  const titleEl = modal.querySelector(sel.title);
+  if (titleEl) titleEl.textContent = finalName;
   if (description) modal.querySelector(sel.desc).textContent = description;
   if (image) {
     const imgEl = modal.querySelector(sel.img);
     imgEl.src = image;
-    imgEl.alt = name || "Gambar produk"; // Ganti jadi name
+    imgEl.alt = finalName;
   }
 
       if (price) {
