@@ -1084,5 +1084,33 @@ footer .credit {
   right: -10px;
 }
 
+/* --- MEMPERBAIKI TAMPILAN KERANJANG AGAR BISA DI-SCROLL --- */
+
+.shopping-cart {
+  /* ... (biarkan kode posisi dan warna background yang sudah ada) ... */
+  
+  max-height: 75vh; /* Membatasi tinggi maksimal keranjang (75% dari tinggi layar) */
+  overflow-y: auto; /* Memunculkan scrollbar secara otomatis jika isi terlalu banyak */
+  padding-bottom: 2rem; /* Memberikan ruang kosong di paling bawah agar tidak mepet */
+}
+
+/* --- (Opsional) Mempercantik bentuk Scrollbar agar elegan --- */
+.shopping-cart::-webkit-scrollbar {
+  width: 8px;
+}
+
+.shopping-cart::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 4px;
+}
+
+.shopping-cart::-webkit-scrollbar-thumb {
+  background: #b6895b; /* Menggunakan warna cokelat khas PsAstro */
+  border-radius: 4px;
+}
+
+.shopping-cart::-webkit-scrollbar-thumb:hover {
+  background: #96714a; /* Warna sedikit lebih gelap saat kursor diarahkan */
+}
 
 
