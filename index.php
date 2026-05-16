@@ -107,6 +107,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <i data-feather="menu"></i>
   </a>
 </div>
+<div class="shopping-cart" x-cloak>
 
 
 
