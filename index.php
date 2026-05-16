@@ -652,25 +652,22 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
       }).format(Number(n || 0));
 
     function openModal(trigger) {
-      // Ambil semua data dari dataset tombol mata
-      const { id, title, description, price, priceOld, image } = trigger.dataset;
-
-      // 1. Simpan ke variabel currentItem agar bisa dibeli
-      currentItem = {
-        id: id,
-        name: title,
-        price: price,
-        img: image.split('/').pop()
-      };
-
-      // 2. Update Tampilan Modal secara Dinamis
-      if (title) modal.querySelector(sel.title).textContent = title;
-      if (description) modal.querySelector(sel.desc).textContent = description;
-      if (image) {
-        const imgEl = modal.querySelector(sel.img);
-        imgEl.src = image;
-        imgEl.alt = title || "Gambar produk";
-      }
+  // 1. Ganti 'title' menjadi 'name' di sini
+  const { id, name, description, price, priceOld, image } = trigger.dataset;
+  currentItem = {
+    id: id,
+    name: name, // 2. Gunakan 'name' di sini
+    price: price,
+    img: image.split('/').pop()
+  };
+  // 3. Ganti 'title' menjadi 'name' di bagian update tampilan
+  if (name) modal.querySelector(sel.title).textContent = name;
+  if (description) modal.querySelector(sel.desc).textContent = description;
+  if (image) {
+    const imgEl = modal.querySelector(sel.img);
+    imgEl.src = image;
+    imgEl.alt = name || "Gambar produk"; // Ganti jadi name
+  }
 
       if (price) {
         modal.querySelector(sel.price).textContent = formatRupiah(price);
