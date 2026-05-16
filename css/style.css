@@ -797,5 +797,11 @@ footer .credit {
   display: block;
 }
 
+/* Membuat tulisan di dalam keranjang menjadi di tengah */
+.shopping-cart h4 {
+  text-align: center;
+  margin-top: 1.5rem;
+  width: 100%;
+}
 
 
