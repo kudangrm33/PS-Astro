@@ -78,6 +78,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       font-size: 0.9rem;
       text-align: center;
     }
+
+    .back-home {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.back-home a {
+  color: #b6895b; /* Warna cokelat sesuai tema Ps Astro */
+  text-decoration: none;
+  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.3s;
+  opacity: 0.8;
+}
+
+.back-home a:hover {
+  color: #fff;
+  opacity: 1;
+  transform: translateX(-5px); /* Efek geser sedikit ke kiri saat di-hover */
+}
+
+.back-home i {
+  width: 18px;
+  height: 18px;
+}
+
   </style>
 </head>
 <body>
@@ -97,5 +125,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <?php endif; ?>
     </form>
   </div>
+<!-- Link Kembali ke Beranda -->
+<div class="back-home">
+  <a href="../index.php">
+    <i data-feather="arrow-left"></i> Kembali ke Beranda
+  </a>
+</div>
+  
 </body>
 </html>
