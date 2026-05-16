@@ -300,7 +300,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <template x-for="(item, index) in items" x-key="index">
           <div class="product-card">
             <div class="product-icons">
-              <a href="#" @click.prevent="$store.cart.add(item)">
+              <a href="#" @click.prevent="$store.cart.add({ ...item, name: item.name || item.NAME })">
                 <svg
                   width="24"
                   height="24"
