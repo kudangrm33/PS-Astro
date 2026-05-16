@@ -118,27 +118,25 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <!-- search form end -->
 
       <!-- Shopping Cart Start -->
-      <div class="shopping-cart">
-        <template x-for="(item, index) in $store.cart.items" x-key="index">
-          <div class="cart-item">
-            <img :src="`img/products/${item.img}`" :alt="item.name" />
-            <div class="item-detail">
-              <h3 x-text="item.name"></h3>
-              <div class="item-price">
-                <span x-text="rupiah(item.price)"></span> &times;
-                <button id="remove" @click="$store.cart.remove(item.id)">
-                  &minus;
-                </button>
-                <span x-text="item.quantity"></span>
-                <button id="add" @click="$store.cart.add(item)">
-                  &plus;
-                </button>
-                &equals;
-                <span x-text="rupiah(item.total)"></span>
-              </div>
-            </div>
-          </div>
-        </template>
+<div class="shopping-cart">
+  <template x-for="(item, index) in $store.cart.items" x-key="index">
+    <div class="cart-item">
+      <img :src="`img/products/${item.img}`" :alt="item.name" />
+      <div class="item-detail">
+        <!-- NAMA PAKET DI SINI -->
+        <h3 x-text="item.name" style="color: #010101; font-size: 1.4rem; margin-bottom: 0.5rem; display: block;"></h3>
+        
+        <div class="item-price">
+          <span x-text="rupiah(item.price)"></span> &times;
+          <button id="remove" @click="$store.cart.remove(item.id)">&minus;</button>
+          <span x-text="item.quantity"></span>
+          <button id="add" @click="$store.cart.add(item)">&plus;</button>
+          &equals;
+          <span x-text="rupiah(item.total)"></span>
+        </div>
+      </div>
+    </div>
+  </template>
 
         <h4 x-show="!$store.cart.items.length" style="margin-top: 1rem">
           Cart is Empty
