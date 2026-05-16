@@ -1044,11 +1044,19 @@ footer .credit {
   display: block !important;
   visibility: visible !important;
 }
-.shopping-cart .item-detail h3 {
-  color: #010101 !important; /* Paksa warna hitam agar terlihat */
-  font-weight: bold;
-  display: block !important;
-  visibility: visible !important;
+.shopping-cart .item-detail {
+  display: flex;
+  flex-direction: column; /* Membuat nama paket ada di ATAS harga */
+  justify-content: center;
 }
+
+.shopping-cart .item-detail h3 {
+  color: #010101 !important;
+  font-weight: bold !important;
+  margin: 0 0 5px 0 !important;
+  padding: 0 !important;
+  display: block !important;
+}
+
 
 
