@@ -803,5 +803,97 @@ footer .credit {
   margin-top: 1.5rem;
   width: 100%;
 }
+/* --- PERBAIKAN TAMPILAN MODAL DETAIL PRODUK --- */
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-container {
+  background-color: #fff;
+  color: #010101;
+  width: 90%;
+  max-width: 800px;
+  padding: 2rem;
+  border-radius: 1rem;
+  position: relative;
+  margin: 2rem;
+}
+
+.modal-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.modal-content img {
+  width: 100%;
+  max-width: 300px; /* Membatasi lebar gambar agar tidak keluar kotak */
+  height: auto;
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+
+.modal-content .product-content {
+  flex: 1;
+}
+
+.modal-content .product-content h3 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.modal-content .product-content p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.modal-content .product-stars {
+  color: #b6895b;
+  margin-bottom: 1rem;
+}
+
+.modal-content .product-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.modal-content .product-price .price-old {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 1.2rem;
+  margin-left: 0.5rem;
+}
+
+/* Tombol Beli di Modal */
+.modal-content .btn-buy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background-color: #b6895b;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 0.5rem;
+}
+
+.modal-content .close-icon {
+  position: absolute;
+  right: 1.5rem;
+  top: 1.5rem;
+  cursor: pointer;
+  color: #333;
+  background: none;
+  border: none;
+}
 
 
