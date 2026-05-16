@@ -611,9 +611,11 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <span id="item-price-old" class="price-old">Rp 90.000</span>
             </div>
             <a href="#products" class="btn-buy" data-modal-close>
-              <i data-feather="dollar-sign"></i>
-              <span id="item-price-plain">70.000</span>
-            </a>
+  <i data-feather="shopping-cart"></i> <!-- Ikon Keranjang -->
+  <span>Rp </span>
+  <span id="item-price-plain">70.000</span>
+</a>
+
           </div>
         </div>
       </div>
