@@ -956,4 +956,13 @@ footer .credit {
 }
 
 
+/* Memberikan ruang di bagian atas isi keranjang */
+.shopping-cart {
+  padding-top: 3rem !important; /* Tambahkan jarak 3rem dari atas */
+}
+
+/* Merapikan jarak antar item agar lebih seimbang */
+.shopping-cart .cart-item {
+  margin-top: 1rem;
+}
 
