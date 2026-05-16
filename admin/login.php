@@ -131,6 +131,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <i data-feather="arrow-left"></i> Kembali ke Beranda
   </a>
 </div>
+
+  <script src="https://unpkg.com/feather-icons"></script>
+<script>
+  feather.replace();
+</script>
+
   
 </body>
 </html>
