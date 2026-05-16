@@ -124,7 +124,8 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <img :src="`img/products/${item.img}`" :alt="item.name" />
       <div class="item-detail">
         <!-- NAMA PAKET DI SINI -->
-        <h3 x-text="item.name" style="color: #010101; font-size: 1.4rem; margin-bottom: 0.5rem; display: block;"></h3>
+       <h3 x-text="item.name || 'Nama Tidak Ditemukan'" style="color: #010101; font-size: 1.4rem; margin-bottom: 0.5rem; display: block; font-weight: bold;"></h3>
+
         
         <div class="item-price">
           <span x-text="rupiah(item.price)"></span> &times;
