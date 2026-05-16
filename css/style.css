@@ -1044,5 +1044,11 @@ footer .credit {
   display: block !important;
   visibility: visible !important;
 }
+.shopping-cart .item-detail h3 {
+  color: #010101 !important; /* Paksa warna hitam agar terlihat */
+  font-weight: bold;
+  display: block !important;
+  visibility: visible !important;
+}
 
 
