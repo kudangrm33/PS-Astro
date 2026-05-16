@@ -320,6 +320,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 data-modal-target="#item-detail-modal"
                 :data-id="item.id"
                 :data-title="item.name"
+                :data-name="item.name"
                 :data-image="`img/products/${item.img}`"
                 :data-price="item.price"
                 :data-price-old="item.priceOld || ''"
