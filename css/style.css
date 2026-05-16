@@ -966,3 +966,36 @@ footer .credit {
   margin-top: 1rem;
 }
 
+/* --- MERAPIKAN TOMBOL TAMBAH/KURANG DI KERANJANG --- */
+
+.shopping-cart .item-price {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.2rem;
+}
+
+.shopping-cart .item-price button {
+  width: 20px;
+  height: 20px;
+  background-color: #010101; /* Warna hitam kotak */
+  color: #fff; /* Warna teks putih */
+  border: none;
+  cursor: pointer;
+  font-size: 1.4rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px; /* Membuat sudut sedikit membulat agar halus */
+  transition: 0.3s;
+}
+
+.shopping-cart .item-price button:hover {
+  background-color: #b6895b; /* Berubah jadi cokelat saat di-hover */
+}
+
+.shopping-cart .item-price span {
+  font-weight: bold;
+}
+
