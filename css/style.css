@@ -1058,5 +1058,31 @@ footer .credit {
   display: block !important;
 }
 
+/* --- STYLE UNTUK NOTIFIKASI KERANJANG MERAH --- */
+
+/* 1. Pastikan ikon keranjang menjadi patokan posisi */
+.navbar .navbar-extra a {
+  position: relative;
+}
+
+/* 2. Buat lingkaran merah untuk angkanya */
+.navbar .navbar-extra a span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red; /* Warna lingkaran merah */
+  color: white; /* Warna angka putih */
+  border-radius: 50%; /* Membuatnya bulat sempurna */
+  width: 20px; /* Lebar lingkaran */
+  height: 20px; /* Tinggi lingkaran */
+  font-size: 0.8rem; /* Ukuran angka */
+  font-weight: bold;
+  
+  /* Posisi lingkaran (di sudut kanan atas ikon) */
+  position: absolute;
+  top: -8px;
+  right: -10px;
+}
+
 
 
