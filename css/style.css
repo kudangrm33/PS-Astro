@@ -30,13 +30,15 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 1.4rem 7%;
-  background: linear-gradient(rgba(1, 1, 1, 0.8) 0%, rgba(1, 1, 1, 0) 100%); /* Gradasi atas */
+  background-color: rgba(1, 1, 1, 0.9); /* Gunakan warna hitam solid (0.9 agar sedikit tembus pandang elegan) */
+  border-bottom: 1px solid #333; /* Memberikan garis tipis di bawah navbar agar lebih tegas */
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 9999;
 }
+
 
 .navbar .navbar-logo {
   font-size: 2rem;
