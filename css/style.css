@@ -695,3 +695,13 @@ footer .credit {
 .shopping-cart.active {
   right: 0; /* Munculkan saat aktif */
 }
+.shopping-cart {
+    color: #010101 !important; /* Pastikan teks berwarna hitam gelap */
+}
+
+.shopping-cart h3, 
+.shopping-cart h4, 
+.shopping-cart span {
+    color: #010101 !important;
+}
+
