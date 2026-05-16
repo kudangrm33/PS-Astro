@@ -319,6 +319,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 href="#"
                 class="item-detail-button"
                 data-modal-target="#item-detail-modal"
+                :data-id="item.id"
                 :data-title="item.name"
                 :data-image="`img/products/${item.img}`"
                 :data-price="item.price"
