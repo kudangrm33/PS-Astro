@@ -1022,3 +1022,19 @@ footer .credit {
   color: #b6895b; /* Berikan warna cokelat pada angka total agar kontras */
 }
 
+/* Memastikan Nama Paket di Keranjang Terlihat Jelas */
+.shopping-cart .item-detail h3 {
+  font-size: 1.4rem !important;
+  font-weight: bold !important;
+  color: #010101 !important; /* Warna hitam solid */
+  margin-bottom: 0.5rem;
+  display: block !important; /* Pastikan tidak tersembunyi */
+}
+
+/* Merapikan posisi detail agar tetap di sebelah gambar */
+.shopping-cart .item-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
