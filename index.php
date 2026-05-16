@@ -629,151 +629,106 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- Modal logic: buka/tutup + isi konten + trap fokus -->
     <script>
-      (() => {
-        const modal = document.getElementById("item-detail-modal");
-        const docBody = document.body;
+  (() => {
+    const modal = document.getElementById("item-detail-modal");
+    const docBody = document.body;
+    let currentItem = null; // Untuk menyimpan data produk yang sedang dibuka
 
-        const sel = {
-          img: "#item-detail-image",
-          title: "#item-detail-title",
-          desc: "#item-detail-desc",
-          price: "#item-price",
-          priceOld: "#item-price-old",
-          pricePlain: "#item-price-plain",
-        };
+    const sel = {
+      img: "#item-detail-image",
+      title: "#item-detail-title",
+      desc: "#item-detail-desc",
+      price: "#item-price",
+      priceOld: "#item-price-old",
+      pricePlain: "#item-price-plain",
+    };
 
-        const formatRupiah = (n) =>
-          new Intl.NumberFormat("id-ID", {
-            style: "currency",
-            currency: "IDR",
-            maximumFractionDigits: 0,
-          }).format(Number(n || 0));
+    const formatRupiah = (n) =>
+      new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        maximumFractionDigits: 0,
+      }).format(Number(n || 0));
 
-        let lastFocused = null;
+    function openModal(trigger) {
+      // Ambil semua data dari dataset tombol mata
+      const { id, title, description, price, priceOld, image } = trigger.dataset;
 
-        const getFocusable = () =>
-          modal.querySelectorAll(
-            'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
-          );
+      // 1. Simpan ke variabel currentItem agar bisa dibeli
+      currentItem = {
+        id: id,
+        name: title,
+        price: price,
+        img: image.split('/').pop()
+      };
 
-        function openModal(trigger) {
-          const { title, description, price, priceOld, image } =
-            trigger.dataset;
+      // 2. Update Tampilan Modal secara Dinamis
+      if (title) modal.querySelector(sel.title).textContent = title;
+      if (description) modal.querySelector(sel.desc).textContent = description;
+      if (image) {
+        const imgEl = modal.querySelector(sel.img);
+        imgEl.src = image;
+        imgEl.alt = title || "Gambar produk";
+      }
 
-          if (title) modal.querySelector(sel.title).textContent = title;
-          if (description)
-            modal.querySelector(sel.desc).textContent = description;
-          if (image) {
-            const imgEl = modal.querySelector(sel.img);
-            imgEl.src = image;
-            imgEl.alt = title || "Gambar produk";
-          }
+      if (price) {
+        modal.querySelector(sel.price).textContent = formatRupiah(price);
+        modal.querySelector(sel.pricePlain).textContent =
+          new Intl.NumberFormat("id-ID").format(Number(price));
+      }
 
-          if (price) {
-            modal.querySelector(sel.price).textContent = formatRupiah(price);
-            modal.querySelector(sel.pricePlain).textContent =
-              new Intl.NumberFormat("id-ID").format(Number(price));
-          }
+      const oldEl = modal.querySelector(sel.priceOld);
+      if (priceOld) {
+        oldEl.textContent = formatRupiah(priceOld);
+        oldEl.style.display = "";
+      } else {
+        oldEl.style.display = "none";
+      }
 
-          const oldEl = modal.querySelector(sel.priceOld);
-          if (priceOld) {
-            oldEl.textContent = formatRupiah(priceOld);
-            oldEl.style.display = "";
-          } else {
-            oldEl.style.display = "none";
-          }
+      modal.setAttribute("aria-hidden", "false");
+      docBody.style.overflow = "hidden";
 
-          lastFocused = document.activeElement;
-          modal.setAttribute("aria-hidden", "false");
-          docBody.style.overflow = "hidden";
+      if (window.feather) feather.replace();
+    }
 
-          if (window.feather && typeof window.feather.replace === "function")
-            feather.replace();
+    function closeModal() {
+      modal.setAttribute("aria-hidden", "true");
+      docBody.style.overflow = "";
+    }
 
-          const focusables = getFocusable();
-          if (focusables.length) focusables[0].focus();
-        }
+    // Event Klik Tombol Cokelat (Beli)
+    document.querySelector('.btn-buy').addEventListener('click', (e) => {
+      e.preventDefault();
+      if (currentItem && window.Alpine) {
+        Alpine.store('cart').add(currentItem);
+        closeModal();
+      }
+    });
 
-        function closeModal() {
-          modal.setAttribute("aria-hidden", "true");
-          docBody.style.overflow = "";
-          if (lastFocused && typeof lastFocused.focus === "function")
-            lastFocused.focus();
-        }
+    // Delegasi klik: buka + tutup
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest('[data-modal-target="#item-detail-modal"]');
+      if (btn) {
+        e.preventDefault();
+        openModal(btn);
+        return;
+      }
+      if (e.target.closest("[data-modal-close]")) {
+        e.preventDefault();
+        closeModal();
+      }
+    });
 
-        // Tambahkan variabel untuk menyimpan data produk yang sedang dibuka
-let currentItem = null;
+    modal.addEventListener("mousedown", (e) => {
+      if (e.target === modal) closeModal();
+    });
 
-function openModal(trigger) {
-  // Ambil ID juga dari dataset
-  const { id, title, price, image, description } = trigger.dataset;
-  
-  // Simpan data produk ke variabel currentItem
-  currentItem = {
-    id: id,
-    name: title,
-    price: price,
-    img: image.split('/').pop() // ambil nama filenya saja
-  };
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+  })();
+</script>
 
-  // ... kode openModal lainnya tetap sama ...
-}
-
-// Tambahkan Event Listener untuk tombol cokelat (btn-buy)
-document.querySelector('.btn-buy').addEventListener('click', (e) => {
-  e.preventDefault();
-  if (currentItem) {
-    // Panggil fungsi Alpine Store untuk menambah ke keranjang
-    Alpine.store('cart').add(currentItem);
-    
-    // Tutup modal setelah berhasil ditambah
-    closeModal();
-  }
-});
-
-
-        // Delegasi klik: buka + tutup
-        document.addEventListener("click", (e) => {
-          const btn = e.target.closest(
-            '[data-modal-target="#item-detail-modal"]'
-          );
-          if (btn) {
-            e.preventDefault();
-            openModal(btn);
-            return;
-          }
-          if (e.target.closest("[data-modal-close]")) {
-            e.preventDefault();
-            closeModal();
-          }
-        });
-
-        // Klik overlay
-        modal.addEventListener("mousedown", (e) => {
-          if (e.target === modal) closeModal();
-        });
-
-        // ESC + trap TAB
-        modal.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") {
-            e.preventDefault();
-            closeModal();
-          } else if (e.key === "Tab") {
-            const nodes = Array.from(getFocusable());
-            if (!nodes.length) return;
-            const first = nodes[0],
-              last = nodes[nodes.length - 1];
-            if (e.shiftKey && document.activeElement === first) {
-              e.preventDefault();
-              last.focus();
-            } else if (!e.shiftKey && document.activeElement === last) {
-              e.preventDefault();
-              first.focus();
-            }
-          }
-        });
-      })();
-    </script>
 
     <!-- My Javascript -->
     <script src="js/script.js" defer></script>
