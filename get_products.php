@@ -7,10 +7,7 @@ $rows = $stmt->fetchAll();
 
 $items = [];
 foreach ($rows as $row) {
-  // Kalau mau: skip produk yang tidak tersedia
-  if (!(int)$row['available']) {
-    continue;
-  }
+  
 
   $items[] = [
     'id'          => (int)$row['id'],
@@ -19,6 +16,7 @@ foreach ($rows as $row) {
     'price'       => (int)$row['price'],
     'priceOld'    => isset($row['price_old']) ? (int)$row['price_old'] : null,
     'description' => $row['description'] ?? '',
+    'available'   => (int)$row['available'], // <--- TAMBAHKAN BARIS INI
   ];
 }
 
