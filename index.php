@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/config.php';
+require __DIR__ . '/config.php'; 
 
 // Ambil produk dari DB (lengkap)
 $stmt = $pdo->query("
