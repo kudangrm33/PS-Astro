@@ -46,22 +46,39 @@ try {
   ]);
   $orderId = $pdo->lastInsertId();
 
-  // simpan item
+    // simpan item
   $stmtItem = $pdo->prepare("
     INSERT INTO order_items (order_id, product_id, product_name, quantity, price, total)
     VALUES (:order_id, :product_id, :product_name, :quantity, :price, :total)
   ");
 
+  // PERSIAPKAN QUERY POTONG STOK
+  $stmtUpdateStock = $pdo->prepare("
+    UPDATE products SET available = available - :quantity WHERE id = :product_id
+  ");
+
   foreach ($items as $it) {
+    $qty = (int)($it['quantity'] ?? 0);
+    $prodId = $it['id'] ?? null;
+
     $stmtItem->execute([
       ':order_id'     => $orderId,
-      ':product_id'   => $it['id'] ?? null,
+      ':product_id'   => $prodId,
       ':product_name' => $it['name'] ?? '',
-      ':quantity'     => (int)($it['quantity'] ?? 0),
+      ':quantity'     => $qty,
       ':price'        => (int)($it['price'] ?? 0),
       ':total'        => (int)($it['total'] ?? 0),
     ]);
+
+    // JALANKAN POTONG STOK
+    if ($prodId) {
+      $stmtUpdateStock->execute([
+        ':quantity'   => $qty,
+        ':product_id' => $prodId,
+      ]);
+    }
   }
+
 
   $pdo->commit();
 
