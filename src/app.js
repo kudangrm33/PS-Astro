@@ -20,6 +20,7 @@ document.addEventListener("alpine:init", () => {
         price: Number(p.price),
         priceOld: old != null ? Number(old) : null,
         description: p.description || "Produk unggulan PS Astro.",
+        available: Number(p.available || 0), // <--- TAMBAHKAN BARIS INI
       };
     }),
   }));
@@ -36,9 +37,18 @@ document.addEventListener("alpine:init", () => {
       return this.items.reduce((s, i) => s + i.total, 0);
     },
 
-    add(newItem) {
+        add(newItem) {
+      if (newItem.available !== undefined && newItem.available <= 0) {
+        alert("Maaf, stok produk habis atau sedang dipesan.");
+        return;
+      }
+
       const found = this.items.find((i) => i.id === newItem.id);
       if (found) {
+        if (newItem.available !== undefined && found.quantity >= newItem.available) {
+          alert("Maaf, stok tidak mencukupi untuk menambah pesanan.");
+          return;
+        }
         found.quantity += 1;
         found.total = found.quantity * found.price;
       } else {
@@ -49,9 +59,11 @@ document.addEventListener("alpine:init", () => {
           price: Number(newItem.price),
           quantity: 1,
           total: Number(newItem.price),
+          available: newItem.available,
         });
       }
     },
+
 
     remove(id) {
       const idx = this.items.findIndex((i) => i.id === id);
