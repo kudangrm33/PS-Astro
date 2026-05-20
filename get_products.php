@@ -2,7 +2,7 @@
 // get_products.php
 require __DIR__ . '/config.php';
 
-$stmt = $pdo->query('SELECT * FROM products ORDER BY id');
+$stmt = $pdo->query('SELECT * FROM products ORDER BY id'); 
 $rows = $stmt->fetchAll();
 
 $items = [];
