@@ -299,6 +299,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="row">
         <template x-for="(item, index) in items" x-key="index">
           <div class="product-card" :class="{'unavailable': item.available <= 0}">
+
             <div class="product-icons">
               <a href="#" @click.prevent="$store.cart.add({ ...item, name: item.name || item.NAME })">
                 <svg
