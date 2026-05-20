@@ -1113,4 +1113,11 @@ footer .credit {
   background: #96714a; /* Warna sedikit lebih gelap saat kursor diarahkan */
 }
 
+/* KOTAK PRODUK HABIS (ABU-ABU) */
+.products .product-card.unavailable {
+  opacity: 0.5;
+  filter: grayscale(100%);
+  pointer-events: none;
+}
+
 
