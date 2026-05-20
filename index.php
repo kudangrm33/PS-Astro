@@ -2,7 +2,7 @@
 require __DIR__ . '/config.php'; 
 
 // Ambil produk dari DB (lengkap)
-$stmt = $pdo->query("
+$stmt = $pdo->query(" 
   SELECT 
     id,
     NAME AS name,
